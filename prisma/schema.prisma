@@ -64,3 +64,40 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+model Player {
+    id            String   @id @default(cuid())
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
+    name          String   @unique
+    password      String
+    score         Int      @default(0)
+    roomPlayerOne Room[]   @relation("playerOne")
+    roomPlayerTwo Room[]   @relation("playerTwo")
+    roomWinner    Room[]   @relation("winner")
+}
+
+model Room {
+    id          String        @id @default(cuid())
+    name        String        @unique
+    createdAt   DateTime      @default(now())
+    updatedAt   DateTime      @updatedAt
+    playerOne   Player?       @relation("playerOne", fields: [playerOneId], references: [id])
+    playerOneId String?
+    playerTwo   Player?       @relation("playerTwo", fields: [playerTwoId], references: [id])
+    playerTwoId String?
+    winner      Player?       @relation("winner", fields: [winnerId], references: [id])
+    winnerId    String?
+    RoomHistory RoomHistory[]
+}
+
+model RoomHistory {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    round     Int
+    positionX Int
+    positionY Int
+    room      Room     @relation(fields: [roomId], references: [id])
+    roomId    String
+}

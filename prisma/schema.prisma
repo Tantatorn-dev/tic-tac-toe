@@ -49,6 +49,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    Player        Player?
 }
 
 model VerificationToken {
@@ -63,12 +64,12 @@ model Player {
     id            String   @id @default(cuid())
     createdAt     DateTime @default(now())
     updatedAt     DateTime @updatedAt
-    name          String   @unique
-    password      String
     score         Int      @default(0)
     roomPlayerOne Room[]   @relation("playerOne")
     roomPlayerTwo Room[]   @relation("playerTwo")
     roomWinner    Room[]   @relation("winner")
+    userId        String   @unique
+    User          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Room {

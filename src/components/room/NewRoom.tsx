@@ -14,15 +14,15 @@ const NewRoom: React.FC<{ refetch: () => void }> = ({ refetch }) => {
   };
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-4">
-      <h1 className="text-xl font-semibold">Create new room</h1>
+    <form onSubmit={onSubmit} className="flex flex-col rounded-md gap-4 bg-[var(--purple-one)] h-44 w-56 p-8 pt-6">
+      <h1 className="text-lg font-semibold text-center">Create New Room</h1>
       <input
         type="text"
         name="name"
         placeholder="name"
-        className="border border-slate-400 text-center"
+        className="border border-slate-400 text-center p-1 rounded-md text-black"
       />
-      <button type="submit">Create</button>
+      <button type="submit" className="bg-purple-400 rounded-md p-1 hover:bg-purple-300">Create</button>
     </form>
   );
 };

@@ -6,7 +6,7 @@ const RoomList = () => {
   const { data, refetch } = api.room.getAll.useQuery();
 
   return (
-    <div className="flex flex-row gap-8">
+    <div className="flex flex-row gap-8 mt-10">
       <NewRoom refetch={refetch as () => void} />
       <div className="grid grid-cols-4 gap-4">
         {data?.map((room) => (

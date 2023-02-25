@@ -11,7 +11,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="mt-8 ml-8 mr-8 flex flex-col">
-        <h1 className="text-center text-xl font-semibold mb-10">Tac Tac Toe</h1>
+        <h1 className="bg-gradient-to-r from-[var(--purple-one)] to-[var(--purple-three)] bg-clip-text text-center text-8xl font-extrabold text-transparent">
+          TicTacToe
+        </h1>
         <RoomList />
       </main>
     </>

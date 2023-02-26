@@ -49,7 +49,10 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
-    Player        Player?
+    roomPlayerOne Room[]    @relation("playerOne")
+    roomPlayerTwo Room[]    @relation("playerTwo")
+    roomWinner    Room[]    @relation("winner")
+    score         Int       @default(0)
 }
 
 model VerificationToken {
@@ -60,28 +63,16 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-model Player {
-    id            String   @id @default(cuid())
-    createdAt     DateTime @default(now())
-    updatedAt     DateTime @updatedAt
-    score         Int      @default(0)
-    roomPlayerOne Room[]   @relation("playerOne")
-    roomPlayerTwo Room[]   @relation("playerTwo")
-    roomWinner    Room[]   @relation("winner")
-    userId        String   @unique
-    User          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
 model Room {
     id          String        @id @default(cuid())
     name        String        @unique
     createdAt   DateTime      @default(now())
     updatedAt   DateTime      @updatedAt
-    playerOne   Player?       @relation("playerOne", fields: [playerOneId], references: [id])
+    playerOne   User?         @relation("playerOne", fields: [playerOneId], references: [id])
     playerOneId String?
-    playerTwo   Player?       @relation("playerTwo", fields: [playerTwoId], references: [id])
+    playerTwo   User?         @relation("playerTwo", fields: [playerTwoId], references: [id])
     playerTwoId String?
-    winner      Player?       @relation("winner", fields: [winnerId], references: [id])
+    winner      User?         @relation("winner", fields: [winnerId], references: [id])
     winnerId    String?
     RoomHistory RoomHistory[]
 }

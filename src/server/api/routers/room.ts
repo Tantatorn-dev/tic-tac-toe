@@ -12,6 +12,16 @@ export const roomRouter = createTRPCRouter({
     });
   }),
 
+  getById: protectedProcedure
+    .input(z.string())
+    .query(({ ctx, input }) => {
+      return ctx.prisma.room.findUnique({
+        where: {
+          id: input,
+        },
+      });
+    }),
+
   createNew: protectedProcedure
     .input(z.object({ name: z.string() }))
     .mutation(({ ctx, input }) => {
@@ -68,6 +78,7 @@ export const roomRouter = createTRPCRouter({
         roomId: z.string(),
         positionX: z.number(),
         positionY: z.number(),
+        playerId: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -88,6 +99,7 @@ export const roomRouter = createTRPCRouter({
           round: numRound + 1,
           positionX: input.positionX,
           positionY: input.positionY,
+          playerId: input.playerId,
         },
       });
     }),

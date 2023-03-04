@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const roomRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
@@ -12,7 +12,7 @@ export const roomRouter = createTRPCRouter({
     });
   }),
 
-  createNew: publicProcedure
+  createNew: protectedProcedure
     .input(z.object({ name: z.string() }))
     .mutation(({ ctx, input }) => {
       return ctx.prisma.room.create({
@@ -22,7 +22,7 @@ export const roomRouter = createTRPCRouter({
       });
     }),
 
-  join: publicProcedure
+  join: protectedProcedure
     .input(z.object({ roomId: z.string(), userId: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const room = await ctx.prisma.room.findUnique({

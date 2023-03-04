@@ -42,7 +42,7 @@ const GameGrid = () => {
   }, [roomData, historyData, session.data]);
 
   const handleClick = async (index: number) => {
-    if (isMyTurn) return;
+    if (!isMyTurn) return;
 
     const { x, y } = arrIndexToPos(index);
     await play.mutateAsync({

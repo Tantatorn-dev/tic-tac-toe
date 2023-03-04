@@ -81,7 +81,7 @@ model RoomHistory {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    round     Int
+    round     Int // 0, 1, ... 8
     positionX Int
     positionY Int
     room      Room     @relation(fields: [roomId], references: [id])

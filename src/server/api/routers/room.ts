@@ -7,7 +7,7 @@ export const roomRouter = createTRPCRouter({
     return ctx.prisma.room.findMany({
       include: {
         playerOne: true,
-        playerTwo: true
+        playerTwo: true,
       },
     });
   }),
@@ -50,5 +50,45 @@ export const roomRouter = createTRPCRouter({
           },
         });
       }
+    }),
+
+  getRoomHistory: protectedProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      return ctx.prisma.roomHistory.findMany({
+        where: {
+          roomId: input,
+        },
+      });
+    }),
+
+  play: protectedProcedure
+    .input(
+      z.object({
+        roomId: z.string(),
+        positionX: z.number(),
+        positionY: z.number(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const histories = await ctx.prisma.roomHistory.findMany({
+        where: {
+          roomId: input.roomId,
+        },
+      });
+
+      const numRound = histories.length;
+      if (numRound >= 9) {
+        return;
+      }
+
+      return ctx.prisma.roomHistory.create({
+        data: {
+          roomId: input.roomId,
+          round: numRound + 1,
+          positionX: input.positionX,
+          positionY: input.positionY,
+        },
+      });
     }),
 });

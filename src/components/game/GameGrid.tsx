@@ -42,6 +42,8 @@ const GameGrid = () => {
   }, [roomData, historyData, session.data]);
 
   const handleClick = async (index: number) => {
+    if (isMyTurn) return;
+
     const { x, y } = arrIndexToPos(index);
     await play.mutateAsync({
       roomId: id as string,
@@ -54,13 +56,15 @@ const GameGrid = () => {
 
   return (
     <div className="flex flex-col">
-      <p>{isMyTurn ? "Your Turn" : "Opponent Turn"}</p>
+      <p className="mb-2 text-center text-xl">
+        {isMyTurn ? "Your Turn" : "Opponent Turn"}
+      </p>
       <div className="grid w-96 grid-cols-3 border border-purple-300">
         {gameArr.map((cell, index) => (
           <div
             key={index}
             onClick={() => handleClick(index)}
-            className="flex h-32 w-32 cursor-pointer place-items-center justify-center border border-purple-400 hover:bg-indigo-900"
+            className={isMyTurn ? styles.activeCell : styles.inactiveCell}
           >
             {cell === "X" && <p className={styles.xoText}>X</p>}
             {cell === "O" && <p className={styles.xoText}>O</p>}

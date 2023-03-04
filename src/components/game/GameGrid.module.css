@@ -1,3 +1,15 @@
 .xoText {
   @apply text-8xl text-purple-400;
 }
+
+.cell {
+  @apply flex h-32 w-32 place-items-center justify-center border border-purple-400;
+}
+
+.activeCell {
+  @apply cell cursor-pointer hover:bg-indigo-900;
+}
+
+.inactiveCell {
+  @apply cell cursor-not-allowed hover:bg-rose-400;
+}
